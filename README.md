@@ -145,6 +145,9 @@ python app_ui.py
 Adjust system prompt, temperature, and max tokens live in the browser.
 
 ---
+**Example output**
+
+![Mistral-7B Gradio UI](assets/ui-screenshot.png)
 
 ## Architecture
 
