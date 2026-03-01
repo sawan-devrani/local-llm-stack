@@ -145,9 +145,78 @@ python app_ui.py
 Adjust system prompt, temperature, and max tokens live in the browser.
 
 ---
-**Example output**
+**Example output screenshot**
 
 ![Mistral-7B Gradio UI](assets/ui-screenshot.png)
+
+**Perform a dry run test using Curl**
+
+```
+sawandevrani@Sawan-Mac ~ curl http://localhost:12434/v1/models | python3 -m json.tool
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   156  100   156    0     0  35936      0 --:--:-- --:--:-- --:--:-- 39000
+{
+    "object": "list",
+    "data": [
+        {
+            "id": "huggingface.co/bartowski/mistral-7b-instruct-v0.3-gguf:latest",
+            "object": "model",
+            "created": 1716404981,
+            "owned_by": "docker"
+        }
+    ]
+}
+sawandevrani@Sawan-Mac ~ % curl http://localhost:12434/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "hf.co/bartowski/Mistral-7B-Instruct-v0.3-GGUF",
+    "messages": [
+      {"role": "user", "content": "What is Kubernetes in one sentence?"}
+    ],
+    "max_tokens": 100
+  }' | python3 -m json.tool
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   898  100   711  100   187    193     50  0:00:03  0:00:03 --:--:--   244
+{
+    "choices": [
+        {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+                "role": "assistant",
+                "content": " Kubernetes is an open-source container orchestration system for automating the deployment, scaling, and management of containerized applications."
+            }
+        }
+    ],
+    "created": 1772392045,
+    "model": "model.gguf",
+    "system_fingerprint": "b1-c55bce4",
+    "object": "chat.completion",
+    "usage": {
+        "completion_tokens": 28,
+        "prompt_tokens": 13,
+        "total_tokens": 41
+    },
+    "id": "chatcmpl-nYMU7GoA9zGE7ql9qm5eTviaYIBRHJgi",
+    "timings": {
+        "cache_n": 0,
+        "prompt_n": 13,
+        "prompt_ms": 211.079,
+        "prompt_per_token_ms": 16.236846153846155,
+        "prompt_per_second": 61.58831527532346,
+        "predicted_n": 28,
+        "predicted_ms": 907.144,
+        "predicted_per_token_ms": 32.398,
+        "predicted_per_second": 30.866102845854684
+    }
+}
+
+
+```
+
 
 ## Architecture
 
